@@ -2,27 +2,44 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Post from '../../components/Post/Post';
 import FullPost from '../../components/FullPost/FullPost';
+
+import FullPostV2 from '../../components/FullPostV2/FullPostV2';
 import NewPost from '../../components/NewPost/NewPost';
 import './Blog.css';
 
 
 class Blog extends Component {
     state= {
-        posts: []
+        posts: [],
+        selectedPost: ''
     }
     componentDidMount(){
         axios.get('https://jsonplaceholder.typicode.com/posts')
             .then(response => {
                 console.log(response.data);
+                const posts = response.data.slice(0, 4);
+                const updatedPosts = posts.map(post => {
+                    return {
+                        ...post,
+                        author: 'Makaila'
+                    }
+                });
                 this.setState({
-                    posts: response.data
+                    posts: updatedPosts
             });
 
         })
     }
+    postSelectedClickHandler(id){
+        const result = this.state.posts.filter((post) => {
+            return post.id === id;
+        });
+        this.setState({selectedPost: result[0]});
+
+    }
     render () {
         const posts = this.state.posts.map(post => {
-            return <Post title={post.title} key={post.id}/>
+            return <Post title={post.title} key={post.id} author={post.author} selectPost={()=>this.postSelectedClickHandler(post.id)}/>
         });
         return (
             <div>
@@ -30,7 +47,9 @@ class Blog extends Component {
                     {posts}
                 </section>
                 <section>
-                    <FullPost />
+                    <FullPostV2 id={this.state.selectedPost.id} title={this.state.selectedPost.title} author={this.state.selectedPost.author} body={this.state.selectedPost.body}/>
+
+                    <FullPost id={this.state.selectedPost.id} title={this.state.selectedPost.title} author={this.state.selectedPost.author} body={this.state.selectedPost.body}/>
                 </section>
                 <section>
                     <NewPost />

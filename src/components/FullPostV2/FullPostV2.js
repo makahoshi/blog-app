@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import './FullPost.css';
+import './FullPostV2.css';
 
-class FullPost extends Component {
+class FullPostV2 extends Component {
     render () {
         let post = <p style={{textAlign: 'center'}}>Please select a Post!</p>;
         if(this.props.id){
@@ -21,4 +21,4 @@ class FullPost extends Component {
     }
 }
 
-export default FullPost;
+export default FullPostV2;
