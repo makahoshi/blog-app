@@ -16,7 +16,6 @@ class Blog extends Component {
     componentDidMount(){
         axios.get('https://jsonplaceholder.typicode.com/posts')
             .then(response => {
-                console.log(response.data);
                 const posts = response.data.slice(0, 4);
                 const updatedPosts = posts.map(post => {
                     return {
@@ -47,7 +46,7 @@ class Blog extends Component {
                     {posts}
                 </section>
                 <section>
-                    <FullPostV2 id={this.state.selectedPost.id} title={this.state.selectedPost.title} author={this.state.selectedPost.author} body={this.state.selectedPost.body}/>
+                    <FullPostV2 id={this.state.selectedPost.id}/>
 
                     <FullPost id={this.state.selectedPost.id} title={this.state.selectedPost.title} author={this.state.selectedPost.author} body={this.state.selectedPost.body}/>
                 </section>

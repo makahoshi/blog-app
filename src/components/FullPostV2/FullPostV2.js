@@ -1,16 +1,33 @@
 import React, { Component } from 'react';
-
+import axios from 'axios';
 import './FullPostV2.css';
 
+//this second implementation makes an unnecessary api call FullPost.js is better for performance
 class FullPostV2 extends Component {
+    state= {
+        loadedPost: null
+    }
+    componentDidUpdate() {
+        if(this.props.id){
+            if(!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== this.props.id)){
+                axios.get(`https://jsonplaceholder.typicode.com/posts/${this.props.id}`).then(response=>{
+                    //  console.log(response);
+                    this.setState({loadedPost: response.data});
+                })
+            }
+        }
+    }
     render () {
         let post = <p style={{textAlign: 'center'}}>Please select a Post!</p>;
         if(this.props.id){
+            let post = <p style={{textAlign: 'center'}}>Loading Content...</p>;
+        }
+        if(this.state.loadedPost){
             post = (
                 <div className="FullPost">
-                    <h1>{this.props.title}</h1>
-                    <p>{this.props.author}</p>
-                    <p>{this.props.body}</p>
+                    <h1>{this.state.loadedPost.title}</h1>
+                    <p>{this.state.loadedPost.author}</p>
+                    <p>{this.state.loadedPost.body}</p>
                     <div className="Edit">
                         <button className="Delete">Delete</button>
                     </div>
