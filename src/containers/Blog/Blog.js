@@ -6,7 +6,7 @@ import FullPost from '../../components/FullPost/FullPost';
 import FullPostV2 from '../../components/FullPostV2/FullPostV2';
 import NewPost from '../../components/NewPost/NewPost';
 import './Blog.css';
-
+import axios from '../../axios';
 
 class Blog extends Component {
     state= {
